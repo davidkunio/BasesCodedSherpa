@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="sherpa">
+<head>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+    <!-- ===== JQuery stuff ============================================ -->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+
+    <!-- ===== Angular stuff ============================================ -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+    <!-- ===== MaterialCss stuff ============================================ -->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.1/angular-materialize.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/lodash/4.15.0/lodash.min.js"></script>
+
+    <script src="app/app.js"></script>
+    <script src="app/states.js"></script>
+    <link rel="stylesheet" href="app/app.css">
+</head>
+
+<body ng-controller="mainCtrl">
+
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper blue darken-4">
+            <a href="#" class="brand-logo">Baseball Sherpa</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Menu buttons</a></li>
+            </ul>
+            <ul class="right">
+                <!--<li><a class="btn-flat" href=""><span>{{ user.get_username }}</span></a></li>-->
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a class="btn-flat" ui-sref="profile.detail">{{ userService.name }}</a></li>
+                <!--<div class="divider"></div>-->
+                <!--<li><a class="btn-flat" ui-sref="">All</a></li>-->
+                <!--<li><a class="btn-flat" ui-sref="">Today's Games</a></li>-->
+                <!--<li><a class="btn-flat" ui-sref="">Mini-games</a></li>-->
+                <!--<li><a class="btn-flat" ui-sref="">Profile</a></li>-->
+
+                <!--<div class="divider"></div>-->
+
+                <!--<li><a class="btn-flat" ui-sref="">Fresh</a></li>-->
+                <!--<li><a class="btn-flat" ui-sref="">My pantry</a></li>-->
+
+                <!--<div class="divider"></div>-->
+
+                <!--<li><a class="waves-effect waves-light btn" href="logout/">Sign Out</a></li>-->
+            </ul>
+        </div>
+    </nav>
+</div> <!-- end navbar-fixed -->
+
+
+
+<div ui-view class="container">
+
+
+<!--</div> &lt;!&ndash; container end &ndash;&gt;-->
+  <!--<input type="date" class="datepicker">-->
+
+  <!--<input type="date" class="datepicker">-->
+
+
+<!--</body>-->
+
+<script>
+      $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15 // Creates a dropdown of 15 years to control year
+  });
+
+
+</script>
+</html>

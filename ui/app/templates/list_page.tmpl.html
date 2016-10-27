@@ -1,0 +1,52 @@
+<h3 class="h3">{[{ listFilter | uppercase }]}</h3>
+<ul class="collection">
+    <li class="collection-item" ng-repeat="item in listService.recipes | filter:listFilter">
+        <a href="#">{[{ item.title }]}</a>
+    </li>
+</ul>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+<!-- Modal Trigger -->
+<!-- Modal Structure -->
+<div id="demoModal" class="modal">
+    <div class="modal-content">
+        <h4>Add Meal</h4>
+        <div class="input-field">
+            <input type="text" id="title" ng-model="newRecipe.title">
+            <label for="title">Meal</label>
+        </div>
+        <!--
+        <form action="#">
+            <p>
+                <input name="group1" type="radio" id="test1" ng-model="newRecipe.when" value="thisWeek" checked />
+                <label for="test1">This week</label>
+            </p>
+            <p>
+                <input name="group1" type="radio" id="test2" ng-model="newRecipe.when" value="nextWeek"/>
+                <label for="test2">Next week</label>
+            </p>
+            <p>
+                <input name="group1" type="radio" id="test3" ng-model="newRecipe.when" value="sometime"/>
+                <label for="test3">Sometime</label>
+            </p>
+        </form>
+        -->
+    </div> <!-- end content -->
+    <div class="modal-footer">
+        <a ng-click="saveMeal()" href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+    </div>
+</div>
+
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a modal class="btn-floating btn-large waves-effect waves-light red" href="#demoModal"><i class="material-icons">add</i></a>
+</div>
