@@ -107,7 +107,7 @@ def hit_and_run_situation(before, event, after, index):
     runners = (1 if "1B" in runners_list else 0,
                1 if "2B" in runners_list else 0,
                1 if "3B" in runners_list else 0)
-    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2):
+    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2) and before['pitch_count'] % 8 == 0:
         print('Hit and Run Situation')
         return({"title":"Possible Hit and Run Situation","text":"Speed and OBP might indicate a good time to hit and run!"})
 
