@@ -38,4 +38,4 @@ def background_thread():
 if __name__ == '__main__':
     thread = socketio.start_background_task(target=background_thread)
 
-    socketio.run(app, debug=True)
+    socketio.run(app, host="ec2-54-196-57-249.compute-1.amazonaws.com", port=80, debug=True)
