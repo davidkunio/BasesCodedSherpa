@@ -11,7 +11,7 @@ from statcastdata import StatCastData
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-CORS(app)
+CORS(app, resources='*')
 socketio = SocketIO(app, async_mode="eventlet")
 
 @app.route('/')
