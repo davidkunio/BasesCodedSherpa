@@ -1,15 +1,21 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 
 from time import sleep
-from random import randrange
+import random
 import newrelic.agent
+import logging
 
 from handlers import handlers
 from statcastdata import StatCastData
 
 app = Flask(__name__)
+
+logging.getLogger('flask_cors').level = logging.DEBUG
+
 app.config['SECRET_KEY'] = 'secret!'
+CORS(app, resources='/*')
 socketio = SocketIO(app, async_mode="eventlet")
 
 @app.route('/')
@@ -25,19 +31,19 @@ def background_thread():
 
     while True:
         with newrelic.agent.BackgroundTask(application, name="background", group='Task'):
-            before, event, after = scd.return_update()
-            if not before or not event or not after:
+            before, event, after, index = scd.return_update()
+            if not before or not after:
                 break
 
-            print(before, event, after)
+            print(before, event, after, index)
 
             sherpa_messages = filter(lambda x: x is not None,
-                                    [handler(before, event, after) for handler in handlers])
+                                    [handler(before, event, after, index) for handler in handlers])
 
             for message in sherpa_messages:
                 socketio.emit('sherpa_message', message)
 
-        sleep(randrange(5,15))
+        sleep(random.uniform(.5,1))
 
 
 
