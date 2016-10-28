@@ -101,7 +101,7 @@ class StatCastData():
         #Determine Count After
         if ('count' in currentEvent):
             if 'outs' in currentEvent['count']:
-                count_after = currentEvent['count']
+                self.count.update(currentEvent['count'])
             elif 'count' in previousEvent:
                 if 'outs' in previousEvent['count']:
                     self.count.update(currentEvent['count'])
