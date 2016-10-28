@@ -10,10 +10,10 @@ def register(f):
 
 
 @register
-def in_play(before, event, after):
-    if 'isInPlay' in event and event['isInPlay']:
-        print("returning from in_play")
-        return {"title": "In Play", "text": "The ball is in play"}
+def in_play(before, event, after, index):
+    if event and 'isInPlay' in event and event['isInPlay']:
+        print("IN PLAY")
+        return {"title": "In Play", "text": "The ball is in play", "index": index}
 
 @register
 def big_play(before, event, after):
@@ -45,8 +45,7 @@ def high_leverage(before, event, after):
 def new_batter(before, event, after):
     if 'new_batter' in before and before['new_batter'] == 1:
         print('New Batter')
-        return("title":%s" strides up to the plate.".format(name.return_name(before['batter'])))
-        
+        return{"title": "New Batter", "text":%s" strides up to the plate.".format(name.return_name(before['batter']))}
 
 @register
 def new_runner(before, event, after):
