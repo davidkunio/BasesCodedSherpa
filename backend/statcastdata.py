@@ -25,9 +25,12 @@ class StatCastData():
         self.game = game
         self.score = {'awayScore':0,'homeScore':0}
         self.count = {'balls':0,'strikes':0,'outs':0}
-        self.pitch_count = 0
-        self.pitcher_first_inning = 1
-        self.pitcher_first_out = 0
+        self.home_pitch_count = 0
+        self.home_pitcher_first_inning = 1
+        self.home_pitcher_first_out = 0
+        self.away_pitch_count = 0
+        self.away_pitcher_first_inning = 1
+        self.away_pitcher_first_out = 0
 
 
 
@@ -122,19 +125,44 @@ class StatCastData():
         challenge = {'challenge':play_challenge,'confirm':challenge_confirm}
 
         ## Calculate Pitch Count
-        pitch_count_before = self.pitch_count
-        if currentPlay['matchup']['pitcher'] == previousPlay['matchup']['pitcher']:
-            if currentEvent['isPitch']:
-                self.pitch_count += 1
-                pitch_count_after = self.pitch_count
-            else:
-                pitch_count_after = self.pitch_count
+        if currentPlay['about']['halfInning']=='top':
+            pitch_count_before = self.home_pitch_count
         else:
-            if currentEvent['isPitch']:
-                self.pitch_count = 1
-                pitch_count_after = self.pitch_count
+            pitch_count_before = self.away_pitch_count
+
+        if currentPlay['matchup']['pitcher'] == previousPlay['matchup']['pitcher']:
+            if currentPlay['about']['halfInning']=='top':
+                if currentEvent['isPitch']:
+                    self.home_pitch_count += 1
+                    pitch_count_after = self.home_pitch_count
+                else:
+                    pitch_count_after = self.home_pitch_count
             else:
-                pitch_count_after = 0
+                if currentEvent['isPitch']:
+                    self.home_pitch_count += 1
+                    pitch_count_after = self.home_pitch_count
+                else:
+                    pitch_count_after = self.home_pitch_count
+        else:
+            if currentPlay['about']['halfInning']=='top':
+                if currentEvent['isPitch']:
+                    self.home_pitch_count += 1
+                    pitch_count_after = self.home_pitch_count
+                else:
+                    pitch_count_after = self.home_pitch_count
+            else:
+                if currentEvent['isPitch']:
+                    self.home_pitch_count += 1
+                    pitch_count_after = self.home_pitch_count
+                else:
+                    pitch_count_after = self.home_pitch_count
+
+        if currentPlay['about']['halfInning']=='top':
+            pitcher_first_inning = self.home_pitcher_first_inning
+            pitcher_first_out = self.home_pitcher_first_out
+        else:
+            pitcher_first_inning = self.away_pitcher_first_inning
+            pitcher_first_out = self.away_pitcher_first_out
 
         ## Check for new Batter
         if previousPlay['matchup']['batter'] != currentPlay['matchup']['batter']:
@@ -145,8 +173,12 @@ class StatCastData():
         ## Check for new pitcher
         if previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher']:
             new_pitcher = 1
-            self.pitcher_first_inning = int(currentPlay['about']['inning'])
-            self.pitcher_first_out = int(self.count['outs'])
+            if currentPlay['about']['halfInning']=='top':
+                self.home_pitcher_first_inning = int(currentPlay['about']['inning'])
+                self.home_pitcher_first_out = int(self.count['outs'])
+            else:
+                self.away_pitcher_first_inning = int(currentPlay['about']['inning'])
+                self.away_pitcher_first_out = int(self.count['outs'])
         else:
             new_pitcher = 0
 
@@ -156,12 +188,11 @@ class StatCastData():
                         'new_batter':new_batter,'new_pitcher':new_pitcher}
         state_after = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,
                         'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after,
-                        'pitcher_first_inning':self.pitcher_first_inning,'pitcher_first_out':self.pitcher_first_out}
+                        'pitcher_first_inning':pitcher_first_inning,'pitcher_first_out':pitcher_first_out}
         event = self.get_event_data(play_num,event_num)
 
         if event_num == self.number_of_events(play_num):
             event.update(challenge)
-
 
         return (state_before,event,state_after,self.item_return)
 
