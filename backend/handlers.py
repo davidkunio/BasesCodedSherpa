@@ -50,7 +50,7 @@ def high_leverage(before, event, after, index):
 def new_batter(before, event, after, index):
     if 'new_batter' in before and before['new_batter'] == 1:
         print('New Batter')
-        return({"title":"New Batter","text":%s" strides up to the plate.".format(name.return_name(before['batter']))})
+        return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter']))})
 
 
 @register
@@ -61,7 +61,7 @@ def new_runner(before, event, after):
 def new_pitcher(before, event, after):
     if 'new_pitcher' in before and before['new_pitcher'] == 1:
         print('New Pitcher')
-        return({"title":"New Batter","text":%s" trots in from the bullpen.".format(name.return_name(before['pitcher']))})
+        return({"title":"New Batter","text":"{} trots in from the bullpen.".format(name.return_name(before['pitcher']))})
 
 @register
 def starter_high_pitch_count(before, event, after):
