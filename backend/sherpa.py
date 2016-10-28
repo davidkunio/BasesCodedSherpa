@@ -23,7 +23,6 @@ def background_thread():
         if not before or not event or not after:
             break
 
-        #socketio.emit('state_event', {'state': state, 'event': event})
         print(before, event, after)
 
         sherpa_messages = filter(lambda x: x is not None,
