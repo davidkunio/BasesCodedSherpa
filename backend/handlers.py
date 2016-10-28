@@ -79,6 +79,7 @@ def starter_low_pitch_count(before, event, after, index):
 
 @register
 def bunt_situation(before, event, after, index):
+    runners_list = after['runners']
     runners = (1 if "1B" in runners_list else 0,
                1 if "2B" in runners_list else 0,
                1 if "3B" in runners_list else 0)
@@ -88,7 +89,8 @@ def bunt_situation(before, event, after, index):
 
 
 # @register
-def new_runner(before, event, after, index):
+def hit_and_run_situation(before, event, after, index):
+    runners_list = after['runners']
     runners = (1 if "1B" in runners_list else 0,
                1 if "2B" in runners_list else 0,
                1 if "3B" in runners_list else 0)
