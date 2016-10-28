@@ -21,3 +21,9 @@ app.filter('reverse', function() {
         return items.slice().reverse();
     };
 });
+
+app.directive('miniGame', function(){
+    return {
+        templateUrl: 'app/templates/directives/mini-game.html'
+    }
+});

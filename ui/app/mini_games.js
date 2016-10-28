@@ -12,12 +12,14 @@ app.controller('mainCtrl', function($scope, userService, socketService, gameServ
 
 function miniGamesCtrl($scope, socketService, miniGameService)  {
     $scope.miniGameService = miniGameService;
+    miniGameService.scope = $scope
 }
 
 app.service('miniGameService', function(){
-    this.games = ['a', 'b', 'c'];
+    var that = this;
+    that.games = ['a', 'b', 'c'];
 
-    this.current_games = [
+    that.current_games = [
         {
             title: 'Close Out',
             description: "Over-under on Champan ending the game in 17 pitches",
@@ -31,4 +33,14 @@ app.service('miniGameService', function(){
             points: 100,
         },
     ];
+
+    that.addGame = function(msg, ans){
+        var minigame = msg.minigame;
+        minigame.answer = ans;
+        console.log(that.current_games);
+        that.current_games.push(minigame);
+        that.scope.$apply();
+
+    };
+
 });

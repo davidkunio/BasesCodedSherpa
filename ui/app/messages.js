@@ -16,7 +16,18 @@ app.service('socketService', function () {
     // physical channel. If you don't care about multiple channels, you
     // can set the namespace to an empty string.
     var that = this;
-    that.messages = [{data: "Default message"}];
+    that.messages = [
+        {
+            data: "Default message"
+        },
+        {
+            title: "I have a minigame!",
+            data: 'Message data',
+            type: "minigame",
+            text: "sacho.ul acthoeu satoehu satoehu satoeuhg ",
+            minigame: {current_answer: null, choices: ["YES", "NO"]}
+        }
+        ];
     this.namespace = '';
     this.port = '5000';
     this.domain = '127.0.0.1';
@@ -25,6 +36,14 @@ app.service('socketService', function () {
     this.getMessages = function(){
         return messages;
     };
+
+    this.removeMsg = function (msg) {
+        that.messages = _.filter(that.messages, function (obj){
+            return msg !== obj;
+        });
+        that.scope.$apply();
+    };
+
     // Connect to the Socket.IO server.
     // The connection URL has the following format:
     //     http[s]://<domain>:<port>[/<namespace>]
@@ -39,6 +58,8 @@ app.service('socketService', function () {
     });
 
     socket.on('my_response', function(msg) {
+        var d = new Date();
+        msg.title = "Title " + d.toDateString() + " - " + Date.now().toString();
         $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
         console.log('Message: ' + msg.data);
         that.messages = that.messages.concat([msg]);
