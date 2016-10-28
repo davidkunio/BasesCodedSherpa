@@ -49,7 +49,6 @@ def background_thread():
 
 
 if __name__ == '__main__':
-    sys.argv
     try:
         host, port = sys.argv[1], int(sys.argv[2])
     except Excetion as e:
