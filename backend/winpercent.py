@@ -1,6 +1,9 @@
 import requests
 
-def parse_runners(runners):
+def parse_runners(runners_list):
+    runners = (1 if "1B" in runners_list else 0,
+               1 if "2B" in runners_list else 0,
+               1 if "3B" in runners_list else 0)
     if runners == (0,0,0):
         return 1
     elif runners == (1,0,0):
