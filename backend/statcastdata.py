@@ -146,12 +146,12 @@ class StatCastData():
                 else:
                     pitch_count_after = self.away_pitch_count
         else:
-            if currentPlay['about']['halfInning']=='bottom':
+            if currentPlay['about']['halfInning']=='top':
                 if currentEvent['isPitch']:
                     self.home_pitch_count += 1
-                    pitch_count_after = self.away_pitch_count
+                    pitch_count_after = self.home_pitch_count
                 else:
-                    pitch_count_after = self.away_pitch_count
+                    pitch_count_after = self.home_pitch_count
             else:
                 if currentEvent['isPitch']:
                     self.away_pitch_count += 1

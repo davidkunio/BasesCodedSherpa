@@ -15,7 +15,7 @@ def in_play(before, event, after, index):
         print("IN PLAY")
         return {"title": "In Play", "text": "The ball is in play", "index": index}
 
-#@register
+@register
 def big_play(before, event, after, index):
     win_p_before, _ = win_p_and_li(before)
     win_p_after, _ = win_p_and_li(after)
@@ -36,7 +36,7 @@ def big_play(before, event, after, index):
             "{:.3}% to a {:.3}% chance of winning.".format(100*(1-win_p_before), 100*(1-win_p_after))
         }
 
-#@register
+@register
 def high_leverage(before, event, after, index):
     _, li = win_p_and_li(after)
     if li > 2.5:
@@ -77,7 +77,7 @@ def starter_low_pitch_count(before, event, after, index):
         pitch_yield = 0
     if pitch_yield > .19 and after['pitch_count']>15:
         print('Low Pitch Count')
-        return({"title":"Low Pitch Count","text": "{} has been very efficiency. He has retired batters quickly".format(name.return_name(before['pitcher']))})
+        return({"title":"Low Pitch Count","text": "{} has been very efficient. He has retired batters quickly".format(name.return_name(before['pitcher']))})
 
 @register
 def bunt_situation(before, event, after, index):
