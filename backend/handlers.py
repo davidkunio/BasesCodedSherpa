@@ -48,16 +48,22 @@ def high_leverage(before, event, after, index):
 
 @register
 def new_batter(before, event, after, index):
+<<<<<<< Updated upstream
     if 'new_batter' in before and before['new_batter'] == 1 and before['pitch_count'] % 4 == 0:
+=======
+    if 'new_batter' in before and before['new_batter'] == 1:
+        url = 'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['batter'])+'.jpg'
+>>>>>>> Stashed changes
         print('New Batter')
-        return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter']))})
+        return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter'])),"data":{"media_url":url,"message.data.mediatype":"image"}})
 
 
 @register
 def new_pitcher(before, event, after, index):
     if 'new_pitcher' in before and before['new_pitcher'] == 1:
+        'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['pitcher'])+'.jpg'
         print('New Pitcher')
-        return({"title":"New Batter","text":"{} trots in from the bullpen.".format(name.return_name(before['pitcher']))})
+        return({"title":"New Pitcher","text":"{} trots in from the bullpen.".format(name.return_name(before['pitcher'])),"data":{"media_url":url,"message.data.mediatype":"image"}})
 
 @register
 def starter_high_pitch_count(before, event, after, index):
@@ -89,7 +95,7 @@ def bunt_situation(before, event, after, index):
         print('Bunt Situation')
         return({"title":"Possible Bunt Situation","text":"Heads up on the hot corners - this could be a good time to bunt!"})
 
-#@register
+@register
 def squeze_situation(before, event, after, index):
     runners_list = after['runners']
     runners = (1 if "1B" in runners_list else 0,
@@ -97,9 +103,9 @@ def squeze_situation(before, event, after, index):
                1 if "3B" in runners_list else 0)
     if (runners == (0,0,1) or runners ==(1,0,1)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2 and int(before['count']['strikes'])<2 and int(before['count']['outs'])<2):
         print('Squeze Situation')
-        return({"title":"Possible Squeze Situation","text":"Close game, it might be worth the risk two squeze this runner in!"})
+        return({"title":"Possible Squeze Situation","text":"Close game, it might be worth the risk to lay down a squeze bunt!"})
 
-#@register
+@register
 def hit_and_run_situation(before, event, after, index):
     runners_list = after['runners']
     runners = (1 if "1B" in runners_list else 0,
