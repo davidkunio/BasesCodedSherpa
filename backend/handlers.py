@@ -49,17 +49,17 @@ def high_leverage(before, event, after, index):
 @register
 def new_batter(before, event, after, index):
     if 'new_batter' in before and before['new_batter'] == 1 and before['pitch_count'] % 4 == 0:
-        url = 'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['batter'])+'.jpg'
+        img_url = 'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['batter'])+'.jpg'
         print('New Batter')
-        return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter'])),"data":{"media_url":url,"message.data.mediatype":"image"}})
+        return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter'])),"data":{"media_url":img_url,"message.data.mediatype":"image"}})
 
 
 @register
 def new_pitcher(before, event, after, index):
     if 'new_pitcher' in before and before['new_pitcher'] == 1:
-        'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['pitcher'])+'.jpg'
+        img_url = 'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['pitcher'])+'.jpg'
         print('New Pitcher')
-        return({"title":"New Pitcher","text":"{} trots in from the bullpen.".format(name.return_name(before['pitcher'])),"data":{"media_url":url,"message.data.mediatype":"image"}})
+        return({"title":"New Pitcher","text":"{} trots in from the bullpen.".format(name.return_name(before['pitcher'])),"data":{"media_url":img_url,"message.data.mediatype":"image"}})
 
 @register
 def starter_high_pitch_count(before, event, after, index):
