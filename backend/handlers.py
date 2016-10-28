@@ -15,7 +15,7 @@ def in_play(before, event, after, index):
         print("IN PLAY")
         return {"title": "In Play", "text": "The ball is in play", "index": index}
 
-@register
+#@register
 def big_play(before, event, after, index):
     win_p_before, _ = win_p_and_li(before)
     win_p_after, _ = win_p_and_li(after)
@@ -36,7 +36,7 @@ def big_play(before, event, after, index):
             "{:.3}% to a {:.3}% chance of winning.".format(100*(1-win_p_before), 100*(1-win_p_after))
         }
 
-@register
+#@register
 def high_leverage(before, event, after, index):
     _, li = win_p_and_li(after)
     if li > 2.5:
@@ -61,15 +61,21 @@ def new_pitcher(before, event, after, index):
 
 @register
 def starter_high_pitch_count(before, event, after, index):
-    pitch_yield = ((int(after['inning'])-int(after['pitcher_first_inning']))*3 + (int(after['count']['outs'])-int(after['pitcher_first_out'])))/int(after['pitch_count'])
-    if pitch_yield < .16667:
+    if after['pitch_count'] > 0:
+        pitch_yield = ((int(after['inning'])-int(after['pitcher_first_inning']))*3 + (int(after['count']['outs'])-int(after['pitcher_first_out'])))/int(after['pitch_count'])
+    else:
+        pitch_yield = 0
+    if pitch_yield < .16667 and after['pitch_count']>15:
         print('High Pitch Count')
         return({"title":"High Pitch Count","text": "{} better be careful, he is running up the pitch count".format(name.return_name(before['pitcher']))})
 
 @register
 def starter_low_pitch_count(before, event, after, index):
-    pitch_yield = ((int(after['inning'])-int(after['pitcher_first_inning']))*3 + (int(after['count']['outs'])-int(after['pitcher_first_out'])))/int(after['pitch_count'])
-    if pitch_yield > .205:
+    if after['pitch_count'] > 0:
+        pitch_yield = ((int(after['inning'])-int(after['pitcher_first_inning']))*3 + (int(after['count']['outs'])-int(after['pitcher_first_out'])))/int(after['pitch_count'])
+    else:
+        pitch_yield = 0
+    if pitch_yield > .205 and after['pitch_count']>15:
         print('Low Pitch Count')
         return({"title":"Low Pitch Count","text": "{} has been very efficiency. He has retired batters quickly".format(name.return_name(before['pitcher']))})
 
@@ -84,7 +90,7 @@ def bunt_situation(before, event, after, index):
         return({"title":"Possible Bunt Situation","text":"Heads up on the hot corners - this could be a good time to bunt!"})
 
 
-# @register
+#@register
 def hit_and_run_situation(before, event, after, index):
     runners_list = after['runners']
     runners = (1 if "1B" in runners_list else 0,
