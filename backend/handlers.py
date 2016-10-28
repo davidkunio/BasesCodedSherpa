@@ -45,7 +45,7 @@ def high_leverage(before, event, after):
 def new_batter(before, event, after):
     if 'new_batter' in before and before['new_batter'] == 1:
         print('New Batter')
-        return("title")
+        return("title":%s" strides up to the plate.".format(name.return_name(before['batter'])))
     pass
 
 @register
