@@ -48,12 +48,9 @@ def high_leverage(before, event, after, index):
 
 @register
 def new_batter(before, event, after, index):
-<<<<<<< Updated upstream
     if 'new_batter' in before and before['new_batter'] == 1 and before['pitch_count'] % 4 == 0:
-=======
     if 'new_batter' in before and before['new_batter'] == 1:
         url = 'http://mlb.mlb.com/mlb/images/players/head_shot/'+str(before['batter'])+'.jpg'
->>>>>>> Stashed changes
         print('New Batter')
         return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter'])),"data":{"media_url":url,"message.data.mediatype":"image"}})
 
