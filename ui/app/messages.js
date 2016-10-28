@@ -26,6 +26,16 @@ app.service('socketService', function () {
             type: "minigame",
             text: "sacho.ul acthoeu satoehu satoehu satoeuhg ",
             minigame: {current_answer: null, choices: ["YES", "NO"]}
+        },
+        {
+            title: "Update With Media",
+            data: {
+                text: "sacho.ul acthoeu satoehu satoehu satoeuhg ",
+                media_type: 'image',
+                media_url: 'http://sports.cbsimg.net/images/visual/whatshot/jake-arrieta-83015.jpg'
+            },
+            type: "update",
+            text: "sacho.ul acthoeu satoehu satoehu satoeuhg ",
         }
         ];
     this.namespace = '';
