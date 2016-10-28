@@ -1,7 +1,8 @@
 
 function profileCtrl($scope, $state, $stateParams, userService ){
 
-};
+}
+
 
 // function listCtrl($scope, $state, $stateParams, listService ){
 //     console.log("listCtrl loaded");
@@ -31,7 +32,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('messages', {
         url: '/',
-        template: 'Sherpa messages',
+        templateUrl: 'app/templates/messages.tmpl.html',
+        controller: messagesCtrl,
     });
 
     $stateProvider.state('mlb_games', {

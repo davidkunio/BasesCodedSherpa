@@ -10,7 +10,7 @@ def background_thread():
     """Example of how to send server generated events to clients."""
     count = 0
     while True:
-        socketio.sleep(10)
+        socketio.sleep(3)
         count += 1
         socketio.emit('my_response',
                       {'data': 'Server generated event', 'count': count})
