@@ -72,11 +72,20 @@ def starter_high_pitch_count(before, event, after, index):
 
 @register
 def starter_low_pitch_count(before, event, after, index):
-    pass
+    pitch_yield = ((after['inning']-after['pitcher_first_inning'])*3 + (after['count']['outs']-after['pitcher_first_out']))/after['pitcher_count']
+    if pitch_yield > .205:
+        print('Low Pitch Count')
+        return({"title":"Low Pitch Count","text": "{} has been very efficiency. He has retired batters quickly".format(name.return_name(before['pitcher']))})
 
 @register
 def bunt_situation(before, event, after, index):
-    pass
+    runners = (1 if "1B" in runners_list else 0,
+               1 if "2B" in runners_list else 0,
+               1 if "3B" in runners_list else 0)
+    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(before['score']['homeScore']-before['score']['awayScore']) <=2):
+        print('Bunt Situation')
+        return({"title":"Possible Bunt Situation","text":"Heads up on the hot corners - this could be a good time to bunt!"})
+
 
 # @register
 # def new_runner(before, event, after):
