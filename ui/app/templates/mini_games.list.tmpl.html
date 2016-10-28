@@ -3,10 +3,32 @@
     User Stats
 </div>
 <div>
-    <p>Game History</p>
-    <ul>
-        <li ng-repeat="game in miniGameService.games">
-            {{ game }}
+    <h5>Leader Board</h5>
+    <table class="boardered">
+        <thead>
+        <tr>
+            <th data-field="name">Name</th>
+            <th data-field="wins">Wins</th>
+            <th data-field="losses">Losses</th>
+            <th data-field="percent">%</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="user in miniGameService.leaderBoard()">
+            <td>{{ user.name }}</td>
+            <td>{{ user.wins }}</td>
+            <td>{{ user.losses }}</td>
+            <td>{{ user.percent }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h5>Game History</h5>
+    <ul class="collection">
+        <li class="collection-item" ng-repeat="game in miniGameService.gameHistory()">
+            {{ game.gameTitle }}
 
         </li>
     </ul>

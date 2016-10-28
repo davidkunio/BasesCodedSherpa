@@ -17,7 +17,25 @@ function miniGamesCtrl($scope, socketService, miniGameService)  {
 
 app.service('miniGameService', function(){
     var that = this;
-    that.games = ['a', 'b', 'c'];
+    that.gameHistory = function(){
+        return [
+            {
+                gameId: '123',
+                gameTitle: "Cubs vs Cardinals",
+                gamesPlayed: []
+            },
+            {
+                gameId: '123',
+                gameTitle: "Cubs vs Marlins",
+                gamesPlayed: []
+            },
+            {
+                gameId: '123',
+                gameTitle: "Cubs vs Dodgers",
+                gamesPlayed: []
+            }
+        ];
+    };
 
     that.current_games = [
         {
@@ -43,4 +61,11 @@ app.service('miniGameService', function(){
 
     };
 
+    that.leaderBoard = function(){
+        return [
+            {name: "Pete", wins: "50", losses: "50", percent: "50%"},
+            {name: "Mickey", wins: "66", losses: "33", percent: "66%"},
+            {name: "Bo", wins: "98", losses: "2", percent: "98%"},
+        ];
+    };
 });
