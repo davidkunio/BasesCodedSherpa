@@ -70,5 +70,5 @@ class StatCastData():
         self.item_return += 1
         state_before = self.get_play_data(item_val[0][0])
         event = self.get_event_data(item_val[0][0],item_val[0][1])
-        return (state_before,event)
+        return (state_before,event,state_before)
         
