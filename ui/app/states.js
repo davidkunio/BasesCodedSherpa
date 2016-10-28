@@ -1,7 +1,8 @@
 
 function profileCtrl($scope, $state, $stateParams, userService ){
 
-};
+}
+
 
 // function listCtrl($scope, $state, $stateParams, listService ){
 //     console.log("listCtrl loaded");
@@ -31,7 +32,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('messages', {
         url: '/',
-        template: 'Sherpa messages',
+        templateUrl: 'app/templates/messages.tmpl.html',
+        controller: messagesCtrl,
     });
 
     $stateProvider.state('mlb_games', {
@@ -40,7 +42,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         template: '<ui-view />'
     }).state('mlb_games.list', {
         url: '/list',
-        template: 'MLB Games List',
+        controller: mlbGamesCtrl,
+        templateUrl: 'app/templates/mlb_games.list.tmpl.html',
     }).state('mlb_games.details', {
         url: '/list',
         template: 'MLB Games Detail',
@@ -52,7 +55,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         template: '<ui-view />'
     }).state('mini_games.list', {
         url: '/list',
-        template: 'Mini Games List',
+        templateUrl: 'app/templates/mini_games.list.tmpl.html',
+        controller: miniGamesCtrl,
     }).state('mini_games.details', {
         url: '/list',
         template: 'Mini Games Detail',

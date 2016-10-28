@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="sherpa">
+<html ng-app="sherpa" xmlns="http://www.w3.org/1999/html">
 <head>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 
     <!-- ===== JQuery stuff ============================================ -->
     <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
     <!-- ===== Angular stuff ============================================ -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -22,6 +22,12 @@
 
     <script src="app/app.js"></script>
     <script src="app/states.js"></script>
+    <script src="app/scoreboard.js"></script>
+    <script src="app/mini_games.js"></script>
+    <script src="app/user.js"></script>
+    <script src="app/messages.js"></script>
+
+    <script src="app/data.js"></script>
     <link rel="stylesheet" href="app/app.css">
 </head>
 
@@ -39,11 +45,39 @@
                 <!--<li><a class="btn-flat" href=""><span>{{ user.get_username }}</span></a></li>-->
             </ul>
             <ul class="side-nav" id="mobile-demo">
-                <li><a class="btn-flat" ui-sref="profile.detail">{{ userService.name }}</a></li>
+                <div class="col">
+
+                <div class="card horizontal">
+                    <div class="card-image">
+                        <img ng-src="{{ userService.user.profile_picture }}" >
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content black-text">
+                            <p><a ui-sref="profile.detail">{{ userService.user.name }}</a></p>
+                            <p style="font-weight: 100">{{ userService.user.favorite_team }} </p>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                <li>
+                </li>
+                <!--<li><a class="btn-flat" ui-sref="profile.detail">{{ userService.user.name }}</a></li>-->
                 <!--<div class="divider"></div>-->
                 <!--<li><a class="btn-flat" ui-sref="">All</a></li>-->
-                <li><a class="btn-flat" ui-sref="mlb_games.list">MLB Games</a></li>
-                <li><a class="btn-flat" ui-sref="mini_games.list">Mini-games</a></li>
+                <li class="row">
+
+                    <a class="col" ui-sref="mlb_games.list">MLB Games
+                        <span class="new badge blue" data-badge-caption="Upcoming" >15</span>
+
+                    </a>
+                </li>
+                <li class="row">
+                    <a class="col" ui-sref="mini_games.list">Mini-games
+                    <span class="new badge green" data-badge-caption="Won">12</span>
+                    <span class="new badge red" data-badge-caption="Lost">5</span>
+                    </a>
+
+                </li>
                 <!--<li><a class="btn-flat" ui-sref="">Profile</a></li>-->
 
                 <!--<div class="divider"></div>-->
@@ -64,20 +98,20 @@
 <div ui-view class="container">
 
 
-<!--</div> &lt;!&ndash; container end &ndash;&gt;-->
-  <!--<input type="date" class="datepicker">-->
+    <!--</div> &lt;!&ndash; container end &ndash;&gt;-->
+    <!--<input type="date" class="datepicker">-->
 
-  <!--<input type="date" class="datepicker">-->
-
-
-<!--</body>-->
-
-<script>
-      $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
-  });
+    <!--<input type="date" class="datepicker">-->
 
 
-</script>
+    <!--</body>-->
+
+    <script>
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+
+
+    </script>
 </html>

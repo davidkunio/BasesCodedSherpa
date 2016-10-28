@@ -1,0 +1,30 @@
+<h4>Current MLB Games</h4>
+<div class="input-field col s6">
+    <input placeholder="Search" id="search" type="text" ng-model="search">
+    <!--<label for="search">Search</label>-->
+</div>
+<ul>
+    <li ng-repeat="game in gameService.getGames() | orderBy:'game.time' | filter:searchFilter " ng-if="game.home_team_id">
+        <!-- TODO: The first element is empty-->
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card blue lighten-5">
+                    <div class="card-content blue-text text-darken-4">
+                        <span class="card-title">
+
+        {{ game.home_team_name}} vs. {{ game.away_team_name }}
+                        </span>
+                        <p>Start: {{ game.time }}</p>
+                        <p>Details
+                        <!--TODO: add details-->
+                        </p>
+                    </div>
+                    <!--<div class="card-action">-->
+                        <!--<a href="#">This is a link</a>-->
+                        <!--<a href="#">This is a link</a>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

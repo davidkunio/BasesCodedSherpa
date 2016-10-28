@@ -15,14 +15,15 @@ $( document ).ready(function(){
 var app = angular.module("sherpa", ['ui.router', 'ui.materialize']);
 
 
-app.controller('mainCtrl', function($scope, userService){
-    console.log("mainCtrl loaded");
-    $scope.userService = userService;
 
+app.filter('reverse', function() {
+    return function(items) {
+        return items.slice().reverse();
+    };
 });
 
-app.service('userService', function () {
-    this.name = 'Steve Stone'
+app.directive('miniGame', function(){
+    return {
+        templateUrl: 'app/templates/directives/mini-game.html'
+    }
 });
-
-

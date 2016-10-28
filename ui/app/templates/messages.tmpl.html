@@ -1,0 +1,38 @@
+<div class="collection">
+    <a class="collection-item" ng-repeat="game in miniGameService.current_games">
+
+        <div class="row black-text">
+
+        <p class="" style="font-weight: 600"> {{ game.title }} </p>
+        <p class="" style="font-weight: 200"> {{ game.description }} </p>
+        <p>Answer: {{ game.answer }}</p>
+        </div>
+
+    </a>
+</div>
+<ul>
+    <li ng-repeat="msg in socketService.messages | reverse">
+
+        <div class="card">
+            <!--<div class="card-image waves-effect waves-block waves-light">-->
+                <!--<img class="activator" src="images/office.jpg">-->
+            <!--</div>-->
+            <div class="card-content">
+                <i class="material-icons right" ng-click="socketService.removeMsg(msg)">close</i>
+                <span class="card-title activator grey-text text-darken-4">{{ msg.title }}<i class="material-icons right">more_vert</i></span>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet arcu ac massa vestibulum vestibulum. Etiam hendrerit velit eu suscipit sodales. Cras sit amet lorem sem.</p>
+                <p><a href="#">This is a link</a></p>
+            </div>
+            <div class="card-action" ng-if="msg.type === 'minigame' && !msg.minigame.answer ">
+                <a class="waves-button btn" ng-repeat="choice in msg.minigame.choices"  ng-click="miniGameService.addGame(msg, choice)">
+                    {{ choice }}
+                </a>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">done</i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+        </div>
+
+    </li>
+</ul>
