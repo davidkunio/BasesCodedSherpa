@@ -9,7 +9,7 @@ def register(f):
 
 @register
 def in_play(before, event, after, index):
-    if 'isInPlay' in event and event['isInPlay']:
+    if event and 'isInPlay' in event and event['isInPlay']:
         print("returning from in_play")
         return {"title": "In Play", "text": "The ball is in play", "index": index}
 

@@ -44,7 +44,7 @@ def win_p_and_li(state):
     state_array.append(int(s['inning']))
     state_array.append(min(int(s['count']['outs']), 2))
     state_array.append(parse_runners(s['runners']))
-    scorediff = s['score']['homeScore']-s['score']['awayScore']
+    scorediff = int(s['score']['homeScore'])-int(s['score']['awayScore'])
     scorediff = -scorediff if s['half'] == 'top' else scorediff
     state_array.append(scorediff)
 
