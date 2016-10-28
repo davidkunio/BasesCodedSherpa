@@ -21,22 +21,14 @@ class StatCastData():
         self.game_schema = game_schema
         self.game_pk = game_pk
         self.item_return = 0
-    
-
-    def get_game_json(self):
-        url = 'http://statsapi.mlb.com/api/v1/game/'+str(self.game_pk)+'/feed/live'
-        game_page = requests.get(url)
-        game = json.loads(game_page.text)
-        return game
+        self.game = game
 
     def number_of_plays(self):
-        game = self.get_game_json()
-        play_count = len(game['liveData']['plays']['allPlays'])
+        play_count = len(self.game['liveData']['plays']['allPlays'])
         return play_count
     
     def current_play(self,play_num):
-        game = self.get_game_json()
-        currentPlay = game['liveData']['plays']['allPlays'][play_num]
+        currentPlay = self.game['liveData']['plays']['allPlays'][play_num]
         return currentPlay
 
     def get_play_data(self,play_num):
@@ -57,9 +49,6 @@ class StatCastData():
 
     def get_event_data(self,play_num,event_num):
         currentEvent = self.current_event(play_num,event_num)
-        #currentPlay = self.current_play(play_num)
-        #currentEvent = currentPlay['playEvents'][event_num]
-        #output_dict=currentEvent['details']
         if 'count' in currentEvent.keys():
             output_dict = currentEvent['count']
             if 'details' in currentEvent.keys():
