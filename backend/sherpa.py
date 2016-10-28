@@ -16,24 +16,26 @@ socketio = SocketIO(app, async_mode="eventlet")
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
-@newrelic.agent.background_task()
 def background_thread():
     print("started thread")
 
     game_id = 1234
     scd = StatCastData()
+    application = newrelic.agent.application()
+
     while True:
-        before, event, after = scd.return_update()
-        if not before or not event or not after:
-            break
+        with newrelic.agent.BackgroundTask(application, name="background", group='Task'):
+            before, event, after = scd.return_update()
+            if not before or not event or not after:
+                break
 
-        print(before, event, after)
+            print(before, event, after)
 
-        sherpa_messages = filter(lambda x: x is not None,
-                                [handler(before, event, after) for handler in handlers])
+            sherpa_messages = filter(lambda x: x is not None,
+                                    [handler(before, event, after) for handler in handlers])
 
-        for message in sherpa_messages:
-            socketio.emit('sherpa_message', message)
+            for message in sherpa_messages:
+                socketio.emit('sherpa_message', message)
 
         sleep(randrange(5,15))
 
