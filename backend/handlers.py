@@ -65,10 +65,7 @@ def new_pitcher(before, event, after, index):
 
 @register
 def starter_high_pitch_count(before, event, after, index):
-    pitch_yield = ((after['inning']-after['pitcher_first_inning'])*3 + (after['count']['outs']-after['pitcher_first_out']))/after['pitcher_count']
-    if pitch_yield < .16667:
-        print('High Pitch Count')
-        return({"title":"High Pitch Count","text": "{} better be careful, he is running up the pitch count".format(name.return_name(before['pitcher']))})
+    pass
 
 @register
 def starter_low_pitch_count(before, event, after, index):
