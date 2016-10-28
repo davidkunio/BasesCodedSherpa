@@ -1,34 +1,42 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
+from handlers import handlers
+from statcastdata import StatCastData
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=None)
-thread = None
-
-def background_thread():
-    """Example of how to send server generated events to clients."""
-    count = 0
-    while True:
-        socketio.sleep(10)
-        count += 1
-        socketio.emit('my_response',
-                      {'data': 'Server generated event', 'count': count})
 
 @app.route('/')
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
-@socketio.on('connect')
-def test_connect():
-    global thread
-    if thread is None:
-        thread = socketio.start_background_task(target=background_thread)
-    emit('my_response', {'data': 'Connected', 'count': 0})
+def background_thread():
+    print("started thread")
+    game_id = 1234
+    er = StatCastData(game_id)
+    while True:
+        before, event, after = er.getEvent()
+        if not state or not event:
+            break
 
-@socketio.on('my_event')
-def test_message(message):
-    emit('my_response', {'data': 'got it!', 'count': 42})
+        #socketio.emit('state_event', {'state': state, 'event': event})
+        print(before, event, after)
+
+        sherpa_messages = filter(lambda x: x is not None,
+                                [handler(before, event, after) for handler in handlers])
+
+        for message in sherpa_messages:
+            socketio.emit('sherpa_message', message)
+
+        socketio.sleep(10)
+
+
 
 if __name__ == '__main__':
+    print("here?")
+
+    thread = socketio.start_background_task(target=background_thread)
+
     socketio.run(app, debug=True)
