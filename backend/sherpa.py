@@ -16,8 +16,8 @@ app = Flask(__name__)
 logging.getLogger('flask_cors').level = logging.DEBUG
 
 app.config['SECRET_KEY'] = 'secret!'
-CORS(app, resources='/*')
-socketio = SocketIO(app, async_mode="eventlet")
+# CORS(app, resources='/*')
+socketio = SocketIO(app)
 
 @app.route('/')
 def index():
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     print("Running on host:{} port:{}".format(host, port))
     thread = socketio.start_background_task(target=background_thread)
 
-    import eventlet
-    import eventlet.wsgi
-    eventlet.wsgi.server(eventlet.listen((host, 5000)), app)
-    # socketio.run(app, host=host, port=port, debug=True)
+    # import eventlet
+    # import eventlet.wsgi
+    # eventlet.wsgi.server(eventlet.listen((host, 5000)), app)
+    socketio.run(app, host=host, port=port, debug=True)
