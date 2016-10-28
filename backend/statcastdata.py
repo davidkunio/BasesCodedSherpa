@@ -58,45 +58,6 @@ class StatCastData():
             output_dict = {}
         return output_dict
 
-    def get_play_data_before(self,play_num,event_num,play_num_prev,event_num_prev):
-        currentPlay = self.current_play(play_num)
-        previousPlay = self.current_play(play_num_prev)
-        batter = currentPlay['matchup']['batter']
-        pitcher = currentPlay['matchup']['pitcher']
-        runners = []
-        count.update(previousPlay['count'])
-
-        inning = currentPlay['about']['inning']
-        half = currentPlay['about']['halfInning']
-        score = previousPlay
-        return {'batter': batter,'pitcher': pitcher,'runners':runners,'count':count,'inning':inning,'half':half}
-
-    def get_play_data_after(self,play_num,event_num,play_num_prev,event_num_prev):
-        currentPlay = self.current_play(play_num)
-        previousPlay = self.current_play(play_num_prev)
-        batter = currentPlay['matchup']['batter']
-        pitcher = currentPlay['matchup']['pitcher']
-        runners = []
-        for x in range(len(currentPlay['runners'])):
-            runners.extend([currentPlay['runners'][x]['movement']['end']])
-        currentEvent = self.current_event(play_num,event_num)
-        previousEvent = self.current_event(play_num_prev,event_num_prev)
-        count = {}
-        if ('count' in currentEvent):
-            if 'outs' in currentEvent['count']:
-                count = currentEvent['count']
-            elif 'count' in previousEvent:
-                if 'outs' in previousEvent['count']:
-                    count = currentEvent['count']
-                    count.update({'outs':previousEvent['count']['outs']})
-                else:
-                    count = previousEvent['count']
-                    count['outs'] = 0
-        inning = currentPlay['about']['inning']
-        half = currentPlay['about']['halfInning']
-        return {'batter': batter,'pitcher': pitcher,'runners':runners,'count':count,'inning':inning,'half':half}
-
-
     def get_data(self,play_num,event_num,play_num_prev,event_num_prev):
         currentPlay = self.current_play(play_num)
         previousPlay = self.current_play(play_num_prev)
@@ -111,8 +72,25 @@ class StatCastData():
         for x in range(len(currentPlay['runners'])):
             runners_after.extend([currentPlay['runners'][x]['movement']['end']])
         ##Determine Count for Before
+
+        '''if play_num != play_num_prev:
+            self.count.update({'balls':0,'strikes':0})
+            if ('outs' in previousPlay['count'] and
+                currentPlay['about']['halfInning'] == previousPlay['about']['halfInning'] and
+                currentPlay['about']['inning'] == previousPlay['about']['inning']):
+                self.count.update({'outs':previousPlay['count']['outs']})
+            else:
+                self.count['outs'] = 0
+        elif play_num == play_num_prev:
+            if 'count' in previousPlay:
+                self.count.update(previousPlay['count'])
+            if ('outs' in previousPlay['count'] and
+                currentPlay['about']['halfInning'] == previousPlay['about']['halfInning'] and
+                currentPlay['about']['inning'] == previousPlay['about']['inning']):
+        '''
+
         if (currentPlay['about']['halfInning'] == previousPlay['about']['halfInning'] and
-            currentPlay['about']['inning'] == previousPlay['about']['halfInning'] and
+            currentPlay['about']['inning'] == previousPlay['about']['inning'] and
             currentPlay['matchup']['batter'] != previousPlay['matchup']['batter']):
             self.count.update({'balls':0,'strikes':0})
             self.count.update({'outs':previousPlay['count']['outs']})
@@ -140,10 +118,27 @@ class StatCastData():
         inning = currentPlay['about']['inning']
         half = currentPlay['about']['halfInning']
 
+        #Search of Umpire Review
+
+        if ('result' in currentPlay and 'description' in currentPlay['result']):
+            if 'challenge' in currentPlay['result']['description']:
+                play_challenge = 1
+            else:
+                play_challenge = 0
+            if 'confirm' in currentPlay['result']['description']:
+                challenge_confirm = 1
+            else:
+                challenge_confirm = 0
+        challenge = {'challenge':play_challenge,'confirm':challenge_confirm}
 
         state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,'inning':inning,'half':half,'score':score_before}
         state_after = event_before = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,'inning':inning,'half':half,'score':score_after}
         event = self.get_event_data(play_num,event_num)
+
+        if event_num == self.number_of_events(play_num):
+            event.update(challenge)
+
+
         return (state_before,event,state_after)
 
     @newrelic.agent.background_task()
