@@ -65,14 +65,14 @@ def new_pitcher(before, event, after, index):
 
 @register
 def starter_high_pitch_count(before, event, after, index):
-    pitch_yield = ((after['inning']-after['pitcher_first_inning'])*3 + (after['count']['outs']-after['pitcher_first_out']))/after['pitcher_count']
+    pitch_yield = ((int(after['inning'])-int(after['pitcher_first_inning']))*3 + (int(after['count']['outs'])-int(after['pitcher_first_out']))/int(after['pitcher_count'])
     if pitch_yield < .16667:
         print('High Pitch Count')
         return({"title":"High Pitch Count","text": "{} better be careful, he is running up the pitch count".format(name.return_name(before['pitcher']))})
 
 @register
 def starter_low_pitch_count(before, event, after, index):
-    pitch_yield = ((after['inning']-after['pitcher_first_inning'])*3 + (after['count']['outs']-after['pitcher_first_out']))/after['pitcher_count']
+    pitch_yield = ((int(after['inning'])-int(after['pitcher_first_inning']))*3 + (int(after['count']['outs'])-int(after['pitcher_first_out']))/int(after['pitcher_count'])
     if pitch_yield > .205:
         print('Low Pitch Count')
         return({"title":"Low Pitch Count","text": "{} has been very efficiency. He has retired batters quickly".format(name.return_name(before['pitcher']))})
@@ -82,31 +82,20 @@ def bunt_situation(before, event, after, index):
     runners = (1 if "1B" in runners_list else 0,
                1 if "2B" in runners_list else 0,
                1 if "3B" in runners_list else 0)
-    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(before['score']['homeScore']-before['score']['awayScore']) <=2):
+    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2):
         print('Bunt Situation')
         return({"title":"Possible Bunt Situation","text":"Heads up on the hot corners - this could be a good time to bunt!"})
 
 
 # @register
-# def new_runner(before, event, after):
-#     pass
-#
-# @register
-# def new_pitcher(before, event, after):
-#     pass
-#
-# @register
-# def starter_high_pitch_count(before, event, after):
-#     pass
-#
-# @register
-# def starter_low_pitch_count(before, event, after):
-#     pass
-#
-# @register
-# def bunt_situation(before, event, after):
-#     pass
-#
+def new_runner(before, event, after, index):
+    runners = (1 if "1B" in runners_list else 0,
+               1 if "2B" in runners_list else 0,
+               1 if "3B" in runners_list else 0)
+    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2):
+        print('Hit and Run Situation')
+        return({"title":"Possible Hit and Run Situation","text":"Speed and OBP might indicate a good time to hit and run!"})
+
 # @register
 # def hit_and_run_situation(before, event, after):
 #     pass
