@@ -1,3 +1,19 @@
+<div class="collection">
+    <a class="collection-item" ng-repeat="game in miniGameService.current_games">
+
+        <div class="row black-text">
+
+        <p class="">
+        {{ game.title }}
+        </p>
+        <span class="">
+            {{ game.description }}
+        </span>
+        <p>{{ game.answer }}</p>
+        </div>
+
+    </a>
+</div>
 <ul>
     <li ng-repeat="msg in socketService.messages | reverse">
         <div class="card">

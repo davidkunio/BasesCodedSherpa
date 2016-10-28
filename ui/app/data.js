@@ -3845,3 +3845,10 @@ data.user = {
     favorite_team: 'Cubs',
     profile_picture: "https://pbs.twimg.com/profile_images/618905321944190976/gcgmFg8c.jpg"
 }
+
+data.mini_game_stats = {
+    games_played: "50",
+    games_won: "30",
+    games_lost: "20",
+    win_percent: "60%",
+};
