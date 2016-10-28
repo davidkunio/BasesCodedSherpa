@@ -39,8 +39,18 @@ function mlbGamesCtrl($scope, socketService, gameService) {
     };
 }
 
+function miniGamesCtrl($scope, socketService, miniGameService)  {
+    $scope.miniGameService = miniGameService;
+}
+
 app.service('userService', function () {
     this.user = data.user;
+});
+
+app.filter('reverse', function() {
+    return function(items) {
+        return items.slice().reverse();
+    };
 });
 
 app.service('gameService', function () {
@@ -49,6 +59,12 @@ app.service('gameService', function () {
        return games;
    }
 });
+
+
+app.service('miniGameService', function(){
+    this.games = ['a', 'b', 'c'];
+});
+
 
 function messagesCtrl($scope, $rootScope, userService, socketService) {
     $scope.socketService = socketService;

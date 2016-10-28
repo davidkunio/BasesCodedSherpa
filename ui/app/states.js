@@ -55,7 +55,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         template: '<ui-view />'
     }).state('mini_games.list', {
         url: '/list',
-        template: 'Mini Games List',
+        templateUrl: 'app/templates/mini_games.list.tmpl.html',
+        controller: miniGamesCtrl,
     }).state('mini_games.details', {
         url: '/list',
         template: 'Mini Games Detail',
