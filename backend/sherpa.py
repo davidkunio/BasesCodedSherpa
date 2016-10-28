@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 
 from time import sleep
 import random
@@ -11,6 +12,7 @@ from statcastdata import StatCastData
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode="eventlet")
+CORS(app)
 
 @app.route('/')
 def index():
