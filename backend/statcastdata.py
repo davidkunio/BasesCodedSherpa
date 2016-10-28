@@ -1,58 +1,65 @@
+#Functions Used in Stepping through events
 import json
 import requests
 
-class StatCastData:
 
+class StatCastData():    
 
-    game_pk = 487629
-    item_return = 0
-
-    def __init__(self,game_pk):
+    def __init__(self):
+        game_pk  = 487629
         url = 'http://statsapi.mlb.com/api/v1/game/'+str(game_pk)+'/feed/live'
-        self.game = json.loads(game_page.text)
-        self.game_schema = []
+        game_page = requests.get(url)
+        game = json.loads(game_page.text)
+        game_schema = []
         item_number = 0
-        for x in range(number_of_plays(game_pk)):
+        for x in range(len(game['liveData']['plays']['allPlays'])):
             play_num = x
-            for y in range(number_of_events(game_pk,play_num)):
+            for y in range(len(game['liveData']['plays']['allPlays'][play_num]['playEvents'])):
                 event_num = y
-                self.game_schema.append({'item': item_number,'play_num': play_num,'event_num': event_num})
+                game_schema.append({'item': item_number,'play_num': play_num,'event_num': event_num})
                 item_number +=1
-        self.item_return = item_return
+        self.game_schema = game_schema
+        self.game_pk = game_pk
+        self.item_return = 0
+    
 
-    def get_game_json(game_pk):
-        url = 'http://statsapi.mlb.com/api/v1/game/'+str(game_pk)+'/feed/live'
+    def get_game_json(self):
+        url = 'http://statsapi.mlb.com/api/v1/game/'+str(self.game_pk)+'/feed/live'
+        game_page = requests.get(url)
         game = json.loads(game_page.text)
         return game
 
-    def number_of_plays(game_pk):
-        game = get_game_json(game_pk)
+    def number_of_plays(self):
+        game = self.get_game_json()
         play_count = len(game['liveData']['plays']['allPlays'])
         return play_count
-
-    def current_play(game_pk,play_num):
-        game = get_game_json(game_pk)
+    
+    def current_play(self,play_num):
+        game = self.get_game_json()
         currentPlay = game['liveData']['plays']['allPlays'][play_num]
         return currentPlay
 
-    def get_play_data(game_pk,play_num):
-        currentPlay = current_play(game_pk,play_num)
+    def get_play_data(self,play_num):
+        currentPlay = self.current_play(play_num)
         batter = currentPlay['matchup']['batter']
         pitcher = currentPlay['matchup']['pitcher']
         return {'batter': batter,'pitcher': pitcher}
 
-    def number_of_events(game_pk,play_num):
-        currentPlay = current_play(game_pk,play_num)
+    def number_of_events(self,play_num):
+        currentPlay = self.current_play(play_num)
         event_count = len(currentPlay['playEvents'])
         return event_count
 
-    def current_event(game_pk,play_num,event_num):
-        currentPlay = current_play(game_pk,play_num)
+    def current_event(self,play_num,event_num):
+        currentPlay = self.current_play(play_num)
         currentEvent = currentPlay['playEvents'][event_num]
         return currentEvent
 
-    def get_event_data(game_pk,play_num,event_num):
-        currentEvent = current_event(game_pk,play_num,event_num)
+    def get_event_data(self,play_num,event_num):
+        currentEvent = self.current_event(play_num,event_num)
+        #currentPlay = self.current_play(play_num)
+        #currentEvent = currentPlay['playEvents'][event_num]
+        #output_dict=currentEvent['details']
         if 'count' in currentEvent.keys():
             output_dict = currentEvent['count']
             if 'details' in currentEvent.keys():
@@ -60,15 +67,19 @@ class StatCastData:
         else:
             output_dict = {}
         return output_dict
-
-    def get_pitch_count(pitcher,pitch_count):
+    
+    def get_score(self,play_num,event_num):
+        currentEvent = current_event(play_num,event_num)
+    
+    def get_pitch_count(self,pitcher,pitch_count):
         pitch_count += 1
         return {'pitcher': pitcher, 'pitch_count': pitch_count}
-
-
+    
+    
     def return_update(self):
-        item_val = [(x['play_num'], x['event_num']) for x in game_schema if x['item'] == self.item_return]
+        item_val = [(x['play_num'], x['event_num']) for x in self.game_schema if x['item'] == self.item_return]
         self.item_return += 1
-        state = get_play_data(game_pk,item_val[0][0])
-        event = get_event_data(game_pk,item_val[0][0],item_val[0][1])
-        return (state,event)
+        state_before = self.get_play_data(item_val[0][0])
+        event = self.get_event_data(item_val[0][0],item_val[0][1])
+        return (state_before,event)
+        
