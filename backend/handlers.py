@@ -35,6 +35,7 @@ def big_play(before, event, after):
 @register
 def high_leverage(before, event, after):
     _, li = win_p_and_li(after)
+    print("LI: {}".format(li))
     if li > 2.5:
         print("HIGH LEVERAGE")
         return {"title": "Big Opportunity", "text": "Head's up, this could be big. With a hit, this game could change."}

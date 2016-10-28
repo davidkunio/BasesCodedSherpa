@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
 from time import sleep
-from random import randrange
+import random
 import newrelic.agent
 
 from handlers import handlers
@@ -37,7 +37,7 @@ def background_thread():
             for message in sherpa_messages:
                 socketio.emit('sherpa_message', message)
 
-        sleep(randrange(5,15))
+        # sleep(random.uniform(.5,2))
 
 
 
