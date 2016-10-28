@@ -5,11 +5,15 @@ from flask_cors import CORS
 from time import sleep
 import random
 import newrelic.agent
+import logging
 
 from handlers import handlers
 from statcastdata import StatCastData
 
 app = Flask(__name__)
+
+logging.getLogger('flask_cors').level = logging.DEBUG
+
 app.config['SECRET_KEY'] = 'secret!'
 CORS(app, resources='*')
 socketio = SocketIO(app, async_mode="eventlet")
