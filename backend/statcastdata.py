@@ -82,7 +82,8 @@ class StatCastData():
             self.count.update({'balls':0,'strikes':0})
             self.count.update({'outs':previousPlay['count']['outs']})
         elif 'count' in previousEvent:
-            self.count.update(previousEvent['count'])
+            self.count.update(previousPlay['count'])
+
         count_before = self.count
 
         #Determine Count After
@@ -95,8 +96,9 @@ class StatCastData():
                     self.count.update({'outs':previousEvent['count']['outs']})
                 else:
                     self.count = previousEvent['count']
-                    self.count['outs'] = 0
         count_after = self.count
+
+        # Determine the Score
         score_before = self.score
         if 'homeScore' in currentEvent['details']:
             score_after = self.score.update({'awayScore':currentEvent['details']['awayScore'],'homeScore':currentEvent['details']['homeScore']})
