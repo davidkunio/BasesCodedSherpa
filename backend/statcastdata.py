@@ -174,7 +174,7 @@ class StatCastData():
 
         ## Check for new pitcher
         if currentPlay['about']['halfInning']=='top':
-            if (previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher'] and previousPlay['halfInning']==currentPlay['halfInning']):
+            if (previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher'] and previousPlay['about']['halfInning']==currentPlay['about']['halfInning']):
                 new_pitcher = 1
                 self.home_pitcher_first_inning = int(currentPlay['about']['inning'])
                 self.home_pitcher_first_out = int(self.count['outs'])
