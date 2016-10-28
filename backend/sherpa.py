@@ -9,6 +9,7 @@ import logging
 
 from handlers import handlers
 from statcastdata import StatCastData
+import sys
 
 app = Flask(__name__)
 
@@ -48,6 +49,14 @@ def background_thread():
 
 
 if __name__ == '__main__':
+    sys.argv
+    try:
+        host, port = sys.argv[1], int(sys.argv[2])
+    except Excetion as e:
+        host = "ec2-54-196-57-249.compute-1.amazonaws.com"
+        port =80
+
+    print("Running on host:{} port:{}".format(host, port))
     thread = socketio.start_background_task(target=background_thread)
 
-    socketio.run(app, host="ec2-54-196-57-249.compute-1.amazonaws.com", port=80, debug=True)
+    socketio.run(app, host=host, port=port, debug=True)
