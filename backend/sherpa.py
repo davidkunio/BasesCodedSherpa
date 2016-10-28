@@ -44,7 +44,7 @@ def background_thread():
             for message in sherpa_messages:
                 socketio.emit('sherpa_message', message)
 
-        sleep(random.uniform(.5,1))
+        # sleep(random.uniform(.5,1))
 
 
 
@@ -53,9 +53,12 @@ if __name__ == '__main__':
         host, port = sys.argv[1], int(sys.argv[2])
     except Exception as e:
         host = "ec2-54-196-57-249.compute-1.amazonaws.com"
-        port =80
+        port = 5000
 
     print("Running on host:{} port:{}".format(host, port))
     thread = socketio.start_background_task(target=background_thread)
 
-    socketio.run(app, host=host, port=port, debug=True)
+    import eventlet
+    import eventlet.wsgi
+    eventlet.wsgi.server(eventlet.listen((host, 5000)), app)
+    # socketio.run(app, host=host, port=port, debug=True)
