@@ -49,19 +49,15 @@ def win_p_and_li(state):
     state_array.append(scorediff)
 
     state_string = ",".join(map(str, state_array))
-    print(state_string)
 
     result = mc_wpli.get(state_string)
-    print("result {}".format(result))
     if not result:
         url = "https://gregstoll.dyndns.org/~gregstoll/baseball/getcumulativestats.cgi"
         payload = {'stateString': state_string, 'startYear': 1957, 'endYear': 2015}
         r = requests.get(url, params=payload)
         result = r.json()
         mc_wpli.set(state_string, json.dumps(result))
-        print("storing to cache {}:{}".format(state_string, json.dumps(result)))
     else:
-        print("cache hit")
         result = json.loads(result)
     win_p = result['wins']/result['total']
     win_p = 1 - win_p if s['half'] == 'top' else win_p
