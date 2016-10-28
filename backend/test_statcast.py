@@ -1,6 +1,5 @@
 from statcastdata import StatCastData
 game = StatCastData()
-print(game.return_update())
-print(game.return_update())
-print(game.return_update())
-print(game.return_update())
+
+for x in range(game.get_total_items()):
+    print(game.return_update())
