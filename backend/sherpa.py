@@ -26,7 +26,7 @@ def background_thread():
     while True:
         with newrelic.agent.BackgroundTask(application, name="background", group='Task'):
             before, event, after = scd.return_update()
-            if not before or not event or not after:
+            if not before or not after:
                 break
 
             print(before, event, after)
