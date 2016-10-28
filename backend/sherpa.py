@@ -1,7 +1,10 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
+
 from time import sleep
 from random import randrange
+import newrelic.agent
+
 from handlers import handlers
 from statcastdata import StatCastData
 
@@ -13,6 +16,7 @@ socketio = SocketIO(app, async_mode="eventlet")
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
+@newrelic.agent.background_task()
 def background_thread():
     print("started thread")
 

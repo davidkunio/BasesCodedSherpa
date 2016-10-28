@@ -24,21 +24,21 @@ def parse_runners(runners_list):
 #win p is normalized to describe home team
 def win_p_and_li(state):
     s = state.copy()
-    if s['count']['outs'] == 3:
-        if s['halfInning'] == 'bottom':
+    if int(s['count']['outs']) == 3:
+        if s['half'] == 'bottom':
             s['inning'] += 1
-            s['halfInning'] == 'top'
+            s['half'] == 'top'
         else:
-            s['halfInning'] == 'bottom'
+            s['half'] == 'bottom'
 
     state_array = []
 
-    state_array.append('"V"' if s['halfInning'] == 'top' else 'H')
+    state_array.append('"V"' if s['half'] == 'top' else 'H')
     state_array.append(s['inning'])
-    state_array.append(max(s['count']['outs']), 2)
+    state_array.append(max(int(s['count']['outs']), 2))
     state_array.append(parse_runners(s['runners']))
     scorediff = s['homeScore']-s['awayScore']
-    scorediff = -scorediff if s['halfInning'] == 'top' else scorediff
+    scorediff = -scorediff if s['half'] == 'top' else scorediff
     state_array.append(scorediff)
 
     state_string = state_array.join(",")
@@ -48,5 +48,5 @@ def win_p_and_li(state):
     r = requests.get(url, params=payload)
     result = json.loads(r.json())
     win_p = result['wins']/result['total']
-    win_p = 1 - win_p if s['halfInning'] == 'top' else win_p
+    win_p = 1 - win_p if s['half'] == 'top' else win_p
     return win_p, result['leverage']
