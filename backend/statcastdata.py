@@ -3,7 +3,7 @@ import json
 import requests
 
 
-class StatCastData():    
+class StatCastData():
 
     def __init__(self):
         game_pk  = 487629
@@ -23,10 +23,11 @@ class StatCastData():
         self.item_return = 0
         self.game = game
 
+
     def number_of_plays(self):
         play_count = len(self.game['liveData']['plays']['allPlays'])
         return play_count
-    
+
     def current_play(self,play_num):
         currentPlay = self.game['liveData']['plays']['allPlays'][play_num]
         return currentPlay
@@ -56,19 +57,18 @@ class StatCastData():
         else:
             output_dict = {}
         return output_dict
-    
+
     def get_score(self,play_num,event_num):
         currentEvent = current_event(play_num,event_num)
-    
+
     def get_pitch_count(self,pitcher,pitch_count):
         pitch_count += 1
         return {'pitcher': pitcher, 'pitch_count': pitch_count}
-    
-    
+
+
     def return_update(self):
         item_val = [(x['play_num'], x['event_num']) for x in self.game_schema if x['item'] == self.item_return]
         self.item_return += 1
         state_before = self.get_play_data(item_val[0][0])
         event = self.get_event_data(item_val[0][0],item_val[0][1])
         return (state_before,event,state_before)
-        

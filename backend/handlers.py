@@ -1,4 +1,4 @@
-# import winpercent
+from winpercent import win_p_and_li
 
 handlers = []
 
@@ -19,7 +19,9 @@ def big_play(before, event, after):
 
 @register
 def high_leverage(before, event, after):
-    pass
+    win_p, li = win_p_and_li(after)
+    if li > 2.5:
+        return {"title": "Big Opportunity", "text": "Head's up, this could be big. With a hit, this game could change."}
 
 @register
 def new_batter(before, event, after):
