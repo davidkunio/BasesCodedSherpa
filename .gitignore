@@ -92,3 +92,5 @@ ENV/
 
 # UI 
 .idea/*
+
+backend/data_output.txt

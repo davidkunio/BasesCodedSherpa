@@ -29,6 +29,7 @@ class StatCastData():
 
 
 
+
     def get_total_items(self):
         return len(self.game_schema)
 
@@ -147,15 +148,28 @@ class StatCastData():
             else:
                 pitch_count_after = 0
 
-        state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,'inning':inning,'half':half,'score':score_before,'pitch_count':pitch_count_before}
-        state_after = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after}
+        if previousPlay['matchup']['batter'] != currentPlay['matchup']['batter']:
+            new_batter = 1
+        else:
+            new_batter = 0
+
+        if previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher']:
+            new_pitcher = 1
+        else:
+            new_pitcher = 0
+
+        state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,
+                        'inning':inning,'half':half,'score':score_before,'pitch_count':pitch_count_before,
+                        'new_batter':new_batter,'new_pitcher':new_pitcher}
+        state_after = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,
+                        'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after}
         event = self.get_event_data(play_num,event_num)
 
         if event_num == self.number_of_events(play_num):
             event.update(challenge)
 
 
-        return (state_before,event,state_after)
+        return (state_before,event,state_after,self.item_return)
 
     @newrelic.agent.background_task()
     def return_update(self):
@@ -169,5 +183,6 @@ class StatCastData():
             item_val_prev = [(x['play_num'], x['event_num']) for x in self.game_schema if x['item'] == self.item_return]
             item_val = [(x['play_num'], x['event_num']) for x in self.game_schema if x['item'] == self.item_return]
             self.item_return += 1
+
 
         return self.get_data(item_val[0][0],item_val[0][1],item_val_prev[0][0],item_val_prev[0][1])
