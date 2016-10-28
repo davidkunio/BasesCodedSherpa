@@ -85,11 +85,11 @@ def bunt_situation(before, event, after, index):
     runners = (1 if "1B" in runners_list else 0,
                1 if "2B" in runners_list else 0,
                1 if "3B" in runners_list else 0)
-    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2 and before['count']['strikes']<2 and before['count']['outs']<2):
+    if (runners == (1,1,0) or runners ==(1,0,0)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2 and int(before['count']['strikes'])<2 and int(before['count']['outs'])<2):
         print('Bunt Situation')
         return({"title":"Possible Bunt Situation","text":"Heads up on the hot corners - this could be a good time to bunt!"})
 
-
+#@register
 def squeze_situation(before, event, after, index):
     runners_list = after['runners']
     runners = (1 if "1B" in runners_list else 0,
