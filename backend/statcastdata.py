@@ -1,11 +1,12 @@
+import json
+import requests
+
 class StatCastData:
-    
-    import json
-    import requests
-    
+
+
     game_pk = 487629
     item_return = 0
-    
+
     def __init__(self,game_pk):
         url = 'http://statsapi.mlb.com/api/v1/game/'+str(game_pk)+'/feed/live'
         self.game = json.loads(game_page.text)
@@ -28,7 +29,7 @@ class StatCastData:
         game = get_game_json(game_pk)
         play_count = len(game['liveData']['plays']['allPlays'])
         return play_count
-    
+
     def current_play(game_pk,play_num):
         game = get_game_json(game_pk)
         currentPlay = game['liveData']['plays']['allPlays'][play_num]
@@ -59,12 +60,12 @@ class StatCastData:
         else:
             output_dict = {}
         return output_dict
-    
+
     def get_pitch_count(pitcher,pitch_count):
         pitch_count += 1
         return {'pitcher': pitcher, 'pitch_count': pitch_count}
-    
-    
+
+
     def return_update(self):
         item_val = [(x['play_num'], x['event_num']) for x in game_schema if x['item'] == self.item_return]
         self.item_return += 1
