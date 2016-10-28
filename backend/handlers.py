@@ -8,9 +8,10 @@ def register(f):
 
 
 @register
-def runs_scored(before, event, after):
-    if event['isScoringPlay']:
-        return {"title": "Runs Scored", "text": "Runs were scored"}
+def in_play(before, event, after):
+    if 'isInPlay' in event and event['isInPlay']:
+        print("returning from in_play")
+        return {"title": "In Play", "text": "The ball is in play"}
 
 @register
 def big_play(before, event, after):

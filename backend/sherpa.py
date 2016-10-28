@@ -1,12 +1,13 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-
+from time import sleep
+from random import randrange
 from handlers import handlers
 from statcastdata import StatCastData
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, async_mode=None)
+socketio = SocketIO(app, async_mode="eventlet")
 
 @app.route('/')
 def index():
@@ -14,11 +15,12 @@ def index():
 
 def background_thread():
     print("started thread")
+
     game_id = 1234
-    er = StatCastData(game_id)
+    scd = StatCastData()
     while True:
-        before, event, after = er.getEvent()
-        if not state or not event:
+        before, event, after = scd.return_update()
+        if not before or not event or not after:
             break
 
         #socketio.emit('state_event', {'state': state, 'event': event})
@@ -30,13 +32,11 @@ def background_thread():
         for message in sherpa_messages:
             socketio.emit('sherpa_message', message)
 
-        socketio.sleep(10)
+        sleep(randrange(5,15))
 
 
 
 if __name__ == '__main__':
-    print("here?")
-
     thread = socketio.start_background_task(target=background_thread)
 
     socketio.run(app, debug=True)
