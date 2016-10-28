@@ -95,7 +95,7 @@ class StatCastData():
                     self.count.update(currentEvent['count'])
                     self.count.update({'outs':previousEvent['count']['outs']})
                 else:
-                    self.count = previousEvent['count']
+                    self.count.update(previousEvent['count'])
         count_after = self.count
 
         # Determine the Score
