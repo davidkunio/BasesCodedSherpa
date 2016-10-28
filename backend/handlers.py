@@ -95,7 +95,7 @@ def squeze_situation(before, event, after, index):
     runners = (1 if "1B" in runners_list else 0,
                1 if "2B" in runners_list else 0,
                1 if "3B" in runners_list else 0)
-    if (runners == (0,0,1) or runners ==(1,0,1)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2 and before['count']['strikes']<2 and before['count']['outs']<2):
+    if (runners == (0,0,1) or runners ==(1,0,1)) and (abs(int(before['score']['homeScore'])-int(before['score']['awayScore'])) <=2 and int(before['count']['strikes'])<2 and int(before['count']['outs'])<2):
         print('Squeze Situation')
         return({"title":"Possible Squeze Situation","text":"Close game, it might be worth the risk two squeze this runner in!"})
 
