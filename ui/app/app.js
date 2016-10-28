@@ -40,7 +40,7 @@ function mlbGamesCtrl($scope, socketService, gameService) {
 }
 
 app.service('userService', function () {
-    this.name = 'Steve Stone'
+    this.user = data.user;
 });
 
 app.service('gameService', function () {

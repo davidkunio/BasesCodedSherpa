@@ -3838,3 +3838,10 @@ data.score_card = {
     }
 }
 };
+
+
+data.user = {
+    name: 'Steve Stone',
+    favorite_team: 'Cubs',
+    profile_picture: "https://pbs.twimg.com/profile_images/618905321944190976/gcgmFg8c.jpg"
+}
