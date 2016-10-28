@@ -1,5 +1,6 @@
 function mlbGamesCtrl($scope, socketService, gameService) {
     $scope.gameService = gameService;
+    $scope.socketService = socketService;
     $scope.search = '';
     $scope.searchFilter = function (game){
         if( game.home_team_name.toLocaleLowerCase().indexOf( $scope.search.toLowerCase() ) > -1) {
@@ -9,6 +10,11 @@ function mlbGamesCtrl($scope, socketService, gameService) {
             return true;
         }
         return false;
+    };
+
+    $scope.joinGame = function (game){
+        $scope.socketService.connectSocket(game.url);
+        console.log('Joining game: ' + game.url);
     };
 }
 

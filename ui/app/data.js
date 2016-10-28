@@ -845,6 +845,7 @@ data.score_card = {
                 away_division: "W"
             },
             {
+                url: "http://ec2-54-196-57-249.compute-1.amazonaws.com:80/",
                 game_type: "R",
                 double_header_sw: "N",
                 location: "Chicago, IL",

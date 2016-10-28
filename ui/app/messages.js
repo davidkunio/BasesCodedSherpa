@@ -57,17 +57,32 @@ app.service('socketService', function () {
     // Connect to the Socket.IO server.
     // The connection URL has the following format:
     //     http[s]://<domain>:<port>[/<namespace>]
-    var socket = io.connect('http://' + this.domain + ':' + this.port + this.namespace);
-    this.socket = socket;
+    // var socket = io.connect('http://' + this.domain + ':' + this.port + this.namespace);
+
+
+    that.connectSocket = function (url) {
+        if ( url === undefined ){
+            url = "http://127.0.0.1:5000/"
+            console.log("Url is undefined. Using default value of: " + url);
+        }
+        var socket = io.connect(url);
+        that.socket = socket;
+        console.log("Connecting socket to: " + url);
+        return socket;
+
+    };
+
+    var url = "http://ec2-54-196-57-249.compute-1.amazonaws.com:80/";
+    that.connectSocket(url);
     // Event handler for new connections.
     // The callback function is invoked when a connection with the
     // server is established.
-    socket.on('connect', function() {
+    that.socket.on('connect', function() {
         socket.emit('my_event', {data: 'I\'m connected!'});
         console.log('Connected');
     });
 
-    socket.on('my_response', function(msg) {
+    that.socket.on('my_response', function(msg) {
         var d = new Date();
         msg.title = "Title " + d.toDateString() + " - " + Date.now().toString();
         $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
