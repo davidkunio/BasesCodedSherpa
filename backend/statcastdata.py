@@ -82,7 +82,7 @@ class StatCastData():
             self.count.update({'balls':0,'strikes':0})
             self.count.update({'outs':previousPlay['count']['outs']})
         elif 'count' in previousEvent:
-            self.count.update(previousPlay['count'])
+            self.count.update(previousEvent['count'])
 
         count_before = self.count
 
