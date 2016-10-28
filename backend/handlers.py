@@ -54,10 +54,6 @@ def new_batter(before, event, after, index):
 
 
 @register
-def new_runner(before, event, after, index):
-    pass
-
-@register
 def new_pitcher(before, event, after, index):
     if 'new_pitcher' in before and before['new_pitcher'] == 1:
         print('New Pitcher')
