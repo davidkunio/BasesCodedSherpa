@@ -11,7 +11,7 @@ def register(f):
 
 @register
 def in_play(before, event, after, index):
-    if event and 'isInPlay' in event and event['isInPlay']:
+    if event and 'isInPlay' in event and event['isInPlay'] and before['pitch_count'] % 6 == 0:
         print("IN PLAY")
         return {"title": "In Play", "text": "The ball is in play", "index": index}
 
@@ -48,7 +48,7 @@ def high_leverage(before, event, after, index):
 
 @register
 def new_batter(before, event, after, index):
-    if 'new_batter' in before and before['new_batter'] == 1:
+    if 'new_batter' in before and before['new_batter'] == 1 and before['pitch_count'] % 4 == 0:
         print('New Batter')
         return({"title":"New Batter","text": "{} strides up to the plate.".format(name.return_name(before['batter']))})
 
