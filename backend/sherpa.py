@@ -25,14 +25,14 @@ def background_thread():
 
     while True:
         with newrelic.agent.BackgroundTask(application, name="background", group='Task'):
-            before, event, after = scd.return_update()
+            before, event, after, index = scd.return_update()
             if not before or not after:
                 break
 
-            print(before, event, after)
+            print(before, event, after, index)
 
             sherpa_messages = filter(lambda x: x is not None,
-                                    [handler(before, event, after) for handler in handlers])
+                                    [handler(before, event, after, index) for handler in handlers])
 
             for message in sherpa_messages:
                 socketio.emit('sherpa_message', message)
