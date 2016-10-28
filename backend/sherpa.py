@@ -51,7 +51,7 @@ def background_thread():
 if __name__ == '__main__':
     try:
         host, port = sys.argv[1], int(sys.argv[2])
-    except Excetion as e:
+    except Exception as e:
         host = "ec2-54-196-57-249.compute-1.amazonaws.com"
         port =80
 
