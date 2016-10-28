@@ -34,6 +34,30 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         template: 'Sherpa messages',
     });
 
+    $stateProvider.state('mlb_games', {
+        abstract: true,
+        url: '/games',
+        template: '<ui-view />'
+    }).state('mlb_games.list', {
+        url: '/list',
+        template: 'MLB Games List',
+    }).state('mlb_games.details', {
+        url: '/list',
+        template: 'MLB Games Detail',
+    });
+
+    $stateProvider.state('mini_games', {
+        abstract: true,
+        url: '/games',
+        template: '<ui-view />'
+    }).state('mini_games.list', {
+        url: '/list',
+        template: 'Mini Games List',
+    }).state('mini_games.details', {
+        url: '/list',
+        template: 'Mini Games Detail',
+    });
+
     $stateProvider.state('profile', {
         abstract: true,
         url: '/profile',
