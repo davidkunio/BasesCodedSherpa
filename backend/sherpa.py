@@ -15,7 +15,7 @@ app = Flask(__name__)
 logging.getLogger('flask_cors').level = logging.DEBUG
 
 app.config['SECRET_KEY'] = 'secret!'
-CORS(app, resources='*')
+CORS(app, resources='/*')
 socketio = SocketIO(app, async_mode="eventlet")
 
 @app.route('/')
