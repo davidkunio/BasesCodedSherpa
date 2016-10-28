@@ -74,24 +74,8 @@ class StatCastData():
         runners_after = []
         for x in range(len(currentPlay['runners'])):
             runners_after.extend([currentPlay['runners'][x]['movement']['end']])
+
         ##Determine Count for Before
-
-        '''if play_num != play_num_prev:
-            self.count.update({'balls':0,'strikes':0})
-            if ('outs' in previousPlay['count'] and
-                currentPlay['about']['halfInning'] == previousPlay['about']['halfInning'] and
-                currentPlay['about']['inning'] == previousPlay['about']['inning']):
-                self.count.update({'outs':previousPlay['count']['outs']})
-            else:
-                self.count['outs'] = 0
-        elif play_num == play_num_prev:
-            if 'count' in previousPlay:
-                self.count.update(previousPlay['count'])
-            if ('outs' in previousPlay['count'] and
-                currentPlay['about']['halfInning'] == previousPlay['about']['halfInning'] and
-                currentPlay['about']['inning'] == previousPlay['about']['inning']):
-        '''
-
         if (currentPlay['about']['halfInning'] == previousPlay['about']['halfInning'] and
             currentPlay['about']['inning'] == previousPlay['about']['inning'] and
             currentPlay['matchup']['batter'] != previousPlay['matchup']['batter']):
@@ -122,7 +106,6 @@ class StatCastData():
         half = currentPlay['about']['halfInning']
 
         #Search of Umpire Review
-
         if ('result' in currentPlay and 'description' in currentPlay['result']):
             if 'challenge' in currentPlay['result']['description']:
                 play_challenge = 1
@@ -134,6 +117,7 @@ class StatCastData():
                 challenge_confirm = 0
         challenge = {'challenge':play_challenge,'confirm':challenge_confirm}
 
+        ## Calculate Pitch Count
         pitch_count_before = self.pitch_count
         if currentPlay['matchup']['pitcher'] == previousPlay['matchup']['pitcher']:
             if currentEvent['isPitch']:
@@ -148,16 +132,19 @@ class StatCastData():
             else:
                 pitch_count_after = 0
 
+        ## Check for new Batter
         if previousPlay['matchup']['batter'] != currentPlay['matchup']['batter']:
             new_batter = 1
         else:
             new_batter = 0
 
+        ## Check for new pitcher
         if previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher']:
             new_pitcher = 1
         else:
             new_pitcher = 0
 
+        # Build output dictionaries
         state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,
                         'inning':inning,'half':half,'score':score_before,'pitch_count':pitch_count_before,
                         'new_batter':new_batter,'new_pitcher':new_pitcher}
