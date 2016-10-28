@@ -25,6 +25,8 @@ class StatCastData():
         self.game = game
         self.score = {'awayScore':0,'homeScore':0}
         self.count = {'balls':0,'strikes':0,'outs':0}
+        self.pitch_count = 0
+
 
 
     def get_total_items(self):
@@ -131,8 +133,22 @@ class StatCastData():
                 challenge_confirm = 0
         challenge = {'challenge':play_challenge,'confirm':challenge_confirm}
 
-        state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,'inning':inning,'half':half,'score':score_before}
-        state_after = event_before = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,'inning':inning,'half':half,'score':score_after}
+        pitch_count_before = self.pitch_count
+        if currentPlay['matchup']['pitcher'] == previousPlay['matchup']['pitcher']:
+            if currentEvent['isPitch']:
+                self.pitch_count += 1
+                pitch_count_after = self.pitch_count
+            else:
+                pitch_count_after = self.pitch_count
+        else:
+            if currentEvent['isPitch']:
+                self.pitch_count = 1
+                pitch_count_after = self.pitch_count
+            else:
+                pitch_count_after = 0
+
+        state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,'inning':inning,'half':half,'score':score_before,'pitch_count':pitch_count_before}
+        state_after = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after}
         event = self.get_event_data(play_num,event_num)
 
         if event_num == self.number_of_events(play_num):
