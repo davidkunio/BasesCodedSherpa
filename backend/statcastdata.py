@@ -26,6 +26,8 @@ class StatCastData():
         self.score = {'awayScore':0,'homeScore':0}
         self.count = {'balls':0,'strikes':0,'outs':0}
         self.pitch_count = 0
+        self.pitcher_first_inning = 1
+        self.pitcher_first_out = 0
 
 
 
@@ -143,6 +145,8 @@ class StatCastData():
         ## Check for new pitcher
         if previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher']:
             new_pitcher = 1
+            self.pitcher_first_inning = int(currentPlay['about']['inning'])
+            self.pitcher_first_out = int(self.count['outs'])
         else:
             new_pitcher = 0
 
@@ -151,7 +155,8 @@ class StatCastData():
                         'inning':inning,'half':half,'score':score_before,'pitch_count':pitch_count_before,
                         'new_batter':new_batter,'new_pitcher':new_pitcher}
         state_after = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,
-                        'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after}
+                        'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after,
+                        'pitcher_first_inning':self.pitcher_first_inning,'pitcher_first_out':self.pitcher_first_out}
         event = self.get_event_data(play_num,event_num)
 
         if event_num == self.number_of_events(play_num):
