@@ -124,11 +124,13 @@ class StatCastData():
                 challenge_confirm = 0
         challenge = {'challenge':play_challenge,'confirm':challenge_confirm}
 
-        ## Calculate Pitch Count
+        ## Calculate Pitch Count before
         if currentPlay['about']['halfInning']=='top':
             pitch_count_before = self.home_pitch_count
         else:
             pitch_count_before = self.away_pitch_count
+
+        ##Calculate pitch count after
 
         if currentPlay['matchup']['pitcher'] == previousPlay['matchup']['pitcher']:
             if currentPlay['about']['halfInning']=='top':
@@ -140,16 +142,16 @@ class StatCastData():
             else:
                 if currentEvent['isPitch']:
                     self.away_pitch_count += 1
-                    pitch_count_after = self.away_pitch_count
+                    pitch_count_after = self.home_pitch_count
                 else:
-                    pitch_count_after = self.away_pitch_count
+                    pitch_count_after = self.home_pitch_count
         else:
-            if currentPlay['about']['halfInning']=='top':
+            if currentPlay['about']['halfInning']=='bottom':
                 if currentEvent['isPitch']:
                     self.home_pitch_count += 1
-                    pitch_count_after = self.home_pitch_count
+                    pitch_count_after = self.away_pitch_count
                 else:
-                    pitch_count_after = self.home_pitch_count
+                    pitch_count_after = self.away_pitch_count
             else:
                 if currentEvent['isPitch']:
                     self.away_pitch_count += 1
@@ -171,16 +173,20 @@ class StatCastData():
             new_batter = 0
 
         ## Check for new pitcher
-        if previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher']:
-            new_pitcher = 1
-            if currentPlay['about']['halfInning']=='top':
+        if currentPlay['about']['halfInning']=='top':
+            if (previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher'] and previousPlay['halfInning']==currentPlay['halfInning']):
+                new_pitcher = 1
                 self.home_pitcher_first_inning = int(currentPlay['about']['inning'])
                 self.home_pitcher_first_out = int(self.count['outs'])
             else:
+                new_pitcher = 0
+        else:
+            if (previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher'] and previousPlay['halfInning']==currentPlay['halfInning']):
+                new_pitcher = 1
                 self.away_pitcher_first_inning = int(currentPlay['about']['inning'])
                 self.away_pitcher_first_out = int(self.count['outs'])
-        else:
-            new_pitcher = 0
+            else:
+                new_pitcher = 0
 
         # Build output dictionaries
         state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,
