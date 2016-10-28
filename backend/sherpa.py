@@ -37,7 +37,7 @@ def background_thread():
             for message in sherpa_messages:
                 socketio.emit('sherpa_message', message)
 
-        #sleep(random.uniform(.5,1))
+        sleep(random.uniform(.5,2))
 
 
 
