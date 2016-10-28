@@ -101,9 +101,9 @@ class StatCastData():
         # Determine the Score
         score_before = self.score
         if 'homeScore' in currentEvent['details']:
-            score_after = self.score.update({'awayScore':currentEvent['details']['awayScore'],'homeScore':currentEvent['details']['homeScore']})
-        else:
-            score_after = self.score
+            self.score.update({'awayScore':currentEvent['details']['awayScore'],'homeScore':currentEvent['details']['homeScore']})
+        score_after = self.score
+
         inning = currentPlay['about']['inning']
         half = currentPlay['about']['halfInning']
 
