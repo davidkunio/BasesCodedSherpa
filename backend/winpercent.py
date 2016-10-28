@@ -30,6 +30,7 @@ def win_p_and_li(state):
             s['half'] == 'top'
         else:
             s['half'] == 'bottom'
+        s['count']['outs'] = 0
 
     state_array = []
 
