@@ -42,7 +42,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         template: '<ui-view />'
     }).state('mlb_games.list', {
         url: '/list',
-        template: 'MLB Games List',
+        controller: mlbGamesCtrl,
+        templateUrl: 'app/templates/mlb_games.list.tmpl.html',
     }).state('mlb_games.details', {
         url: '/list',
         template: 'MLB Games Detail',

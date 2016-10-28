@@ -25,6 +25,9 @@ app.controller('mainCtrl', function($scope, userService, socketService, gameServ
 
 });
 
+function mlbGamesCtrl($scope, socketService, gameService) {
+    $scope.gameService = gameService;
+}
 
 app.service('userService', function () {
     this.name = 'Steve Stone'
@@ -32,7 +35,7 @@ app.service('userService', function () {
 
 app.service('gameService', function () {
    this.getGames = function(){
-       return data.score_card;
+       return data.score_card.data.games.game;
    }
 });
 

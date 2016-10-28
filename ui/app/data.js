@@ -1,4 +1,6 @@
-score_card = {
+var data = {};
+
+data.score_card = {
     subject: "master_scoreboard_mlb_2016_06_22",
         copyright: "Copyright 2016 MLB Advanced Media, L.P. Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
     data: {
@@ -3835,4 +3837,4 @@ score_card = {
             day: "22"
     }
 }
-}
+};
