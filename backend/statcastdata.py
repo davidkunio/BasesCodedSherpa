@@ -142,9 +142,9 @@ class StatCastData():
             else:
                 if currentEvent['isPitch']:
                     self.away_pitch_count += 1
-                    pitch_count_after = self.home_pitch_count
+                    pitch_count_after = self.away_pitch_count
                 else:
-                    pitch_count_after = self.home_pitch_count
+                    pitch_count_after = self.away_pitch_count
         else:
             if currentPlay['about']['halfInning']=='bottom':
                 if currentEvent['isPitch']:
@@ -181,7 +181,7 @@ class StatCastData():
             else:
                 new_pitcher = 0
         else:
-            if (previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher'] and previousPlay['halfInning']==currentPlay['halfInning']):
+            if (previousPlay['matchup']['pitcher'] != currentPlay['matchup']['pitcher'] and previousPlay['about']['halfInning']==currentPlay['about']['halfInning']):
                 new_pitcher = 1
                 self.away_pitcher_first_inning = int(currentPlay['about']['inning'])
                 self.away_pitcher_first_out = int(self.count['outs'])
