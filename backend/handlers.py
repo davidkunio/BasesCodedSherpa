@@ -54,25 +54,25 @@ def new_batter(before, event, after, index):
 
 
 @register
-def new_runner(before, event, after):
+def new_runner(before, event, after, index):
     pass
 
 @register
-def new_pitcher(before, event, after):
+def new_pitcher(before, event, after, index):
     if 'new_pitcher' in before and before['new_pitcher'] == 1:
         print('New Pitcher')
         return({"title":"New Batter","text":"{} trots in from the bullpen.".format(name.return_name(before['pitcher']))})
 
 @register
-def starter_high_pitch_count(before, event, after):
+def starter_high_pitch_count(before, event, after, index):
     pass
 
 @register
-def starter_low_pitch_count(before, event, after):
+def starter_low_pitch_count(before, event, after, index):
     pass
 
 @register
-def bunt_situation(before, event, after):
+def bunt_situation(before, event, after, index):
     pass
 
 # @register
