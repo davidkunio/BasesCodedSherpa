@@ -1,34 +1,47 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
+from time import sleep
+from random import randrange
+import newrelic.agent
+
+from handlers import handlers
+from statcastdata import StatCastData
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, async_mode=None)
-thread = None
-
-def background_thread():
-    """Example of how to send server generated events to clients."""
-    count = 0
-    while True:
-        socketio.sleep(10)
-        count += 1
-        socketio.emit('my_response',
-                      {'data': 'Server generated event', 'count': count})
+socketio = SocketIO(app, async_mode="eventlet")
 
 @app.route('/')
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
 
-@socketio.on('connect')
-def test_connect():
-    global thread
-    if thread is None:
-        thread = socketio.start_background_task(target=background_thread)
-    emit('my_response', {'data': 'Connected', 'count': 0})
+def background_thread():
+    print("started thread")
 
-@socketio.on('my_event')
-def test_message(message):
-    emit('my_response', {'data': 'got it!', 'count': 42})
+    game_id = 1234
+    scd = StatCastData()
+    application = newrelic.agent.application()
+
+    while True:
+        with newrelic.agent.BackgroundTask(application, name="background", group='Task'):
+            before, event, after = scd.return_update()
+            if not before or not event or not after:
+                break
+
+            print(before, event, after)
+
+            sherpa_messages = filter(lambda x: x is not None,
+                                    [handler(before, event, after) for handler in handlers])
+
+            for message in sherpa_messages:
+                socketio.emit('sherpa_message', message)
+
+        sleep(randrange(5,15))
+
+
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    thread = socketio.start_background_task(target=background_thread)
+
+    socketio.run(app, host="ec2-54-196-57-249.compute-1.amazonaws.com", port=80, debug=True)
