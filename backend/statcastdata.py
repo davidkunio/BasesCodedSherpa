@@ -1,6 +1,7 @@
 #Functions Used in Stepping through events
 import json
 import requests
+import newrelic.agent
 
 
 class StatCastData():
@@ -111,7 +112,7 @@ class StatCastData():
         pitch_count += 1
         return {'pitcher': pitcher, 'pitch_count': pitch_count}
 
-
+    @newrelic.agent.background_task()
     def return_update(self):
         if self.item_return > 0:
             self.item_return -= 1
