@@ -188,10 +188,29 @@ class StatCastData():
             else:
                 new_pitcher = 0
 
+        team_away_league = self.game['gameData']['teams']['away']['leagueID']
+        team_away_team = self.game['gameData']['teams']['away']['teamID']
+        team_home_league = self.game['gameData']['teams']['home']['leagueID']
+        team_home_team = self.game['gameData']['teams']['home']['teamID']
+        season = self.game['gameData']['game']['seasonDisplay']
+
+        if currentPlay['about']['halfInning'] == 'top':
+            batting_league = team_away_league
+            batting_team = team_away_team
+            pitching_league = team_home_league
+            pitching_team = team_home_league
+        else:
+            batting_league = team_home_league
+            batting_team = team_home_team
+            pitching_league = team_away_league
+            pitching_team = team_away_league
+
+
         # Build output dictionaries
         state_before = {'batter': batter,'pitcher': pitcher,'runners':runners_before,'count':count_before,
                         'inning':inning,'half':half,'score':score_before,'pitch_count':pitch_count_before,
-                        'new_batter':new_batter,'new_pitcher':new_pitcher}
+                        'new_batter':new_batter,'new_pitcher':new_pitcher,'batting_league':batting_league,'batting_team':batting_team,
+                        'pitching_league':pitching_league,'pitching_team':team_away_league}
         state_after = {'batter': batter,'pitcher': pitcher,'runners':runners_after,'count':count_after,
                         'inning':inning,'half':half,'score':score_after,'pitch_count':pitch_count_after,
                         'pitcher_first_inning':pitcher_first_inning,'pitcher_first_out':pitcher_first_out}
